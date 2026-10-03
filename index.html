@@ -39,11 +39,11 @@
     <!-- Main Container -->
     <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6">
 
-        <!-- GİRİŞ EKRANI (YÖNETİCİ GİRİŞİ) -->
+        <!-- GİRİŞ EKRANI (HEM YÖNETİCİ HEM ÖĞRENCİ İÇİN) -->
         <section id="login-section" class="max-w-md mx-auto mt-16 bg-slate-900 border border-slate-800 p-8 rounded-2xl shadow-2xl">
             <div class="text-center mb-6">
-                <h2 class="text-2xl font-bold text-white">Yönetici Girişi</h2>
-                <p class="text-xs text-slate-400 mt-1">Koç paneline erişmek için bilgilerinizi girin</p>
+                <h2 class="text-2xl font-bold text-white">Sisteme Giriş</h2>
+                <p class="text-xs text-slate-400 mt-1">Devam etmek için kullanıcı adı ve şifrenizi girin</p>
             </div>
             <div class="space-y-4">
                 <div>
@@ -64,7 +64,7 @@
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-slate-900 border border-slate-800 p-6 rounded-2xl gap-4">
                 <div>
                     <h2 class="text-xl font-bold text-white">Koç Yönetim Paneli</h2>
-                    <p class="text-xs text-slate-400">Öğrencileri yönetin, web sitesi linklerini kopyalayıp velilerle paylaşın.</p>
+                    <p class="text-xs text-slate-400">Öğrencileri yönetin, şifrelerini belirleyin ve takip edin.</p>
                 </div>
                 <div class="flex items-center gap-3">
                     <button onclick="openStudentModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2.5 rounded-xl text-xs font-semibold transition shadow-lg">+ Yeni Öğrenci Ekle</button>
@@ -107,18 +107,18 @@
                 </div>
             </div>
 
-            <!-- Öğrenci Listesi ve Link Paylaşım Alanı -->
+            <!-- Öğrenci Listesi ve Bilgileri Alanı -->
             <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl space-y-4">
                 <div class="flex justify-between items-center">
-                    <h3 class="text-base font-bold text-white">Öğrenci Web Sitesi Erişim Linkleri</h3>
-                    <span class="text-xs text-emerald-400 bg-emerald-950/40 px-3 py-1 rounded-lg border border-emerald-500/30">✨ Canlı site linkleri otomatik üretiliyor</span>
+                    <h3 class="text-base font-bold text-white">Öğrenci Hesapları ve Şifreleri</h3>
+                    <span class="text-xs text-emerald-400 bg-emerald-950/40 px-3 py-1 rounded-lg border border-emerald-500/30">✨ Öğrencilere kullanıcı adı ve şifre verebilirsiniz</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm text-slate-300">
                         <thead class="bg-slate-800 text-slate-400 text-xs uppercase">
                             <tr>
                                 <th class="p-3 rounded-l-lg">Öğrenci Adı</th>
-                                <th class="p-3">WhatsApp'tan Atılacak Web Linki</th>
+                                <th class="p-3">Kullanıcı Adı / Şifre</th>
                                 <th class="p-3">Seçilen Hafta İlerlemesi</th>
                                 <th class="p-3 rounded-r-lg text-right">İşlem</th>
                             </tr>
@@ -175,25 +175,29 @@
     <!-- Yeni Öğrenci Ekleme Modal -->
     <div id="student-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center hidden z-50 p-4">
         <div class="bg-slate-900 border border-slate-800 p-6 rounded-2xl w-full max-w-md space-y-4 shadow-2xl">
-            <h3 class="text-lg font-bold text-white">Yeni Öğrenci Ekle</h3>
+            <h3 class="text-lg font-bold text-white">Yeni Öğrenci ve Şifre Ekle</h3>
             <div>
                 <label class="block text-xs font-medium text-slate-400 mb-1">Öğrenci Adı Soyadı</label>
                 <input type="text" id="new-student-name" placeholder="Örn: Ahmet Yılmaz" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
             </div>
             <div>
-                <label class="block text-xs font-medium text-slate-400 mb-1">Kullanıcı Adı (Sistem İçi ID / Link İçin)</label>
-                <input type="text" id="new-student-username" placeholder="Örn: ahmet" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
+                <label class="block text-xs font-medium text-slate-400 mb-1">Öğrenci Giriş Kullanıcı Adı</label>
+                <input type="text" id="new-student-username" placeholder="Örn: ahmet123" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-slate-400 mb-1">Öğrenci Giriş Şifresi</label>
+                <input type="password" id="new-student-password" placeholder="Örn: 1234" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
             </div>
             <div class="flex justify-end gap-3 pt-2">
                 <button onclick="closeStudentModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-xl text-xs font-semibold">İptal</button>
-                <button onclick="addNewStudent()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2 rounded-xl text-xs font-semibold">Kaydet ve Link Üret</button>
+                <button onclick="addNewStudent()" class="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2 rounded-xl text-xs font-semibold">Öğrenciyi Kaydet</button>
             </div>
         </div>
     </div>
 
     <!-- Script Kodları -->
     <script>
-        // YÖNETİCİ GİRİŞ BİLGİLERİNİZ (Buradan dilediğiniz gibi değiştirebilirsiniz)
+        // YÖNETİCİ BİLGİLERİN
         const ADMIN_USER = "mustafa";
         const ADMIN_PASS = "yonetici2026";
 
@@ -232,38 +236,51 @@
             if(document.getElementById('week-selector')) document.getElementById('week-selector').value = todayStr;
             if(document.getElementById('student-week-selector')) document.getElementById('student-week-selector').value = todayStr;
 
-            let isAuthed = sessionStorage.getItem('hafiza_authed');
-            const urlParams = new URLSearchParams(window.location.search);
-            const studentToken = urlParams.get('ogrenci');
+            let sessionUser = sessionStorage.getItem('hafiza_current_user');
+            let sessionRole = sessionStorage.getItem('hafiza_role');
 
-            if (studentToken) {
-                let students = JSON.parse(localStorage.getItem('koc_students')) || [];
-                let found = students.find(s => s.username === studentToken);
-                if (found) {
-                    currentUser = found.username;
-                    document.getElementById('login-section').classList.add('hidden');
-                    document.getElementById('user-info').classList.remove('hidden');
-                    document.getElementById('welcome-text').innerText = 'Öğrenci: ' + found.name;
-                    document.getElementById('student-panel').classList.remove('hidden');
-                    loadStudentPanel();
-                    return;
-                }
-            }
-
-            if (isAuthed === 'true') {
+            if (sessionUser && sessionRole === 'admin') {
                 openAdminPanelDirectly();
+            } else if (sessionUser && sessionRole === 'student') {
+                currentUser = sessionUser;
+                document.getElementById('login-section').classList.add('hidden');
+                document.getElementById('user-info').classList.remove('hidden');
+                let students = JSON.parse(localStorage.getItem('koc_students')) || [];
+                let found = students.find(s => s.username === currentUser);
+                document.getElementById('welcome-text').innerText = 'Öğrenci: ' + (found ? found.name : currentUser);
+                document.getElementById('student-panel').classList.remove('hidden');
+                loadStudentPanel();
             }
         });
 
         function checkLogin() {
             let userVal = document.getElementById('login-username').value.trim().toLowerCase();
             let passVal = document.getElementById('login-password').value.trim();
+            let errorDiv = document.getElementById('login-error');
 
+            // 1. Yönetici Giriş Kontrolü
             if (userVal === ADMIN_USER && passVal === ADMIN_PASS) {
-                sessionStorage.setItem('hafiza_authed', 'true');
+                sessionStorage.setItem('hafiza_current_user', 'admin');
+                sessionStorage.setItem('hafiza_role', 'admin');
                 openAdminPanelDirectly();
+                return;
+            }
+
+            // 2. Öğrenci Giriş Kontrolü
+            let students = JSON.parse(localStorage.getItem('koc_students')) || [];
+            let studentFound = students.find(s => s.username.toLowerCase() === userVal && s.password === passVal);
+
+            if (studentFound) {
+                sessionStorage.setItem('hafiza_current_user', studentFound.username);
+                sessionStorage.setItem('hafiza_role', 'student');
+                currentUser = studentFound.username;
+                document.getElementById('login-section').classList.add('hidden');
+                document.getElementById('user-info').classList.remove('hidden');
+                document.getElementById('welcome-text').innerText = 'Öğrenci: ' + studentFound.name;
+                document.getElementById('student-panel').classList.remove('hidden');
+                loadStudentPanel();
             } else {
-                document.getElementById('login-error').classList.remove('hidden');
+                errorDiv.classList.remove('hidden');
             }
         }
 
@@ -283,7 +300,7 @@
         initStorage();
 
         function logout() {
-            sessionStorage.removeItem('hafiza_authed');
+            sessionStorage.clear();
             currentUser = null;
             window.location.href = window.location.pathname;
         }
@@ -444,8 +461,6 @@
             const tbody = document.getElementById('admin-student-list-table');
             tbody.innerHTML = '';
 
-            let currentSiteUrl = window.location.origin + window.location.pathname;
-
             if (students.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="4" class="p-4 text-center text-slate-400 text-xs">Henüz öğrenci eklenmemiş.</td></tr>';
                 return;
@@ -468,16 +483,13 @@
                 });
 
                 let percent = totalAssigned > 0 ? Math.round((totalCompleted / totalAssigned) * 100) : 0;
-                let studentDirectLink = currentSiteUrl + '?ogrenci=' + encodeURIComponent(s.username);
 
                 tbody.innerHTML += `
                     <tr class="hover:bg-slate-800/40 transition">
                         <td class="p-3 font-medium text-white">${s.name}</td>
-                        <td class="p-3 text-xs">
-                            <div class="flex items-center gap-2">
-                                <input type="text" readonly value="${studentDirectLink}" class="bg-slate-800 border border-slate-700 text-xs text-slate-300 px-2 py-1 rounded w-64 truncate">
-                                <button onclick="navigator.clipboard.writeText('${studentDirectLink}'); alert('${s.name} için web linki kopyalandı! WhatsApp\'tan veliye gönderebilirsiniz.');" class="bg-indigo-600 hover:bg-indigo-500 text-white px-2.5 py-1 rounded text-xs transition whitespace-nowrap">Kopyala</button>
-                            </div>
+                        <td class="p-3 text-xs text-slate-300">
+                            <div><strong>K.Adı:</strong> ${s.username}</div>
+                            <div><strong>Şifre:</strong> ${s.password}</div>
                         </td>
                         <td class="p-3">
                             <div class="flex items-center gap-3">
@@ -500,18 +512,20 @@
             document.getElementById('student-modal').classList.add('hidden');
             document.getElementById('new-student-name').value = '';
             document.getElementById('new-student-username').value = '';
+            document.getElementById('new-student-password').value = '';
         }
 
         function addNewStudent() {
             let name = document.getElementById('new-student-name').value.trim();
             let username = document.getElementById('new-student-username').value.trim();
+            let password = document.getElementById('new-student-password').value.trim();
 
-            if (!name || !username) { alert('Lütfen tüm alanları doldurun!'); return; }
+            if (!name || !username || !password) { alert('Lütfen tüm alanları doldurun!'); return; }
 
             let students = JSON.parse(localStorage.getItem('koc_students'));
             if (students.some(s => s.username === username)) { alert('Bu kullanıcı adı başka bir öğrenci tarafından kullanılıyor!'); return; }
 
-            students.push({ name, username });
+            students.push({ name, username, password });
             localStorage.setItem('koc_students', JSON.stringify(students));
             closeStudentModal();
             setupAdminPanel();

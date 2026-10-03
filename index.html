@@ -4,14 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hafıza Akademi - Öğrenci Koçluk ve Takip Sistemi</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Iconları -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col items-center justify-center p-4">
 
-    <!-- Giriş Ekranı Kartı -->
+    <!-- Giriş Ekranı -->
     <div id="login-screen" class="bg-slate-800 border border-slate-700 p-8 rounded-2xl shadow-2xl w-full max-w-md">
         <div class="text-center mb-6">
             <div class="bg-blue-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-3 shadow-lg">
@@ -23,13 +21,13 @@
 
         <form id="login-form" onsubmit="girisYap(event)" class="space-y-4">
             <div>
-                <label class="block text-sm font-medium text-slate-300 mb-1">Öğrenci Adı Soyadı</label>
-                <input type="text" id="ogrenci-adi" placeholder="Örn: Ahmet Yılmaz" required
+                <label class="block text-sm font-medium text-slate-300 mb-1">Ad Soyad</label>
+                <input type="text" id="kullanici-adi" placeholder="Örn: Mustafa Talha Özkaleli" required
                     class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition">
             </div>
             <div>
-                <label class="block text-sm font-medium text-slate-300 mb-1">Özel Şifreniz</label>
-                <input type="password" id="ogrenci-sifresi" placeholder="Şifrenizi giriniz" required
+                <label class="block text-sm font-medium text-slate-300 mb-1">Şifreniz</label>
+                <input type="password" id="kullanici-sifresi" placeholder="Şifrenizi giriniz" required
                     class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-blue-500 transition">
             </div>
             <div id="error-msg" class="text-red-400 text-sm text-center hidden"></div>
@@ -40,23 +38,21 @@
         </form>
     </div>
 
-    <!-- Sistem Paneli (Giriş Yapılınca Görünecek Alan) -->
-    <div id="dashboard-screen" class="hidden w-full max-w-4xl bg-slate-800 border border-slate-700 p-8 rounded-2xl shadow-2xl">
+    <!-- Öğrenci Paneli (Öğrenci Giriş Yapınca Görünür) -->
+    <div id="ogrenci-panel" class="hidden w-full max-w-4xl bg-slate-800 border border-slate-700 p-8 rounded-2xl shadow-2xl">
         <div class="flex justify-between items-center border-b border-slate-700 pb-4 mb-6">
             <div>
-                <h2 id="welcome-title" class="text-xl font-bold text-blue-400">Hoş Geldin, Öğrenci</h2>
-                <p class="text-xs text-slate-400">Hafıza Akademi Başarı Takip Paneli</p>
+                <h2 id="ogrenci-hosgeldin" class="text-xl font-bold text-blue-400">Hoş Geldin</h2>
+                <p class="text-xs text-slate-400">Öğrenci Bireysel Takip Paneli</p>
             </div>
             <button onclick="cikisYap()" class="bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white px-4 py-2 rounded-lg text-sm transition border border-red-600/30">
                 <i class="fa-solid fa-right-from-bracket mr-1"></i> Çıkış Yap
             </button>
         </div>
-
-        <!-- Öğrenci İçeriği / Ödevler / Takip Alanı -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="bg-slate-900 p-5 rounded-xl border border-slate-700">
                 <h3 class="font-semibold text-lg mb-2 text-blue-300"><i class="fa-solid fa-list-check mr-2"></i>Bu Haftanın Görevleri</h3>
-                <p class="text-sm text-slate-400">Ödev durumların ve koçluk notların burada listelenecektir.</p>
+                <p class="text-sm text-slate-400">Ödev durumların ve koçluk notların burada listelenmektedir.</p>
             </div>
             <div class="bg-slate-900 p-5 rounded-xl border border-slate-700">
                 <h3 class="font-semibold text-lg mb-2 text-emerald-300"><i class="fa-solid fa-chart-line mr-2"></i>Gelişim Raporu</h3>
@@ -65,44 +61,67 @@
         </div>
     </div>
 
+    <!-- Yönetici Paneli (Sen Giriş Yapınca Görünür) -->
+    <div id="yonetici-panel" class="hidden w-full max-w-4xl bg-slate-800 border border-slate-700 p-8 rounded-2xl shadow-2xl">
+        <div class="flex justify-between items-center border-b border-slate-700 pb-4 mb-6">
+            <div>
+                <h2 class="text-xl font-bold text-emerald-400"><i class="fa-solid fa-user-shield mr-2"></i>Hafıza Akademi - Yönetici Paneli</h2>
+                <p class="text-xs text-slate-400">Hoş Geldiniz, Mustafa Talha Özkaleli</p>
+            </div>
+            <button onclick="cikisYap()" class="bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white px-4 py-2 rounded-lg text-sm transition border border-red-600/30">
+                <i class="fa-solid fa-right-from-bracket mr-1"></i> Çıkış Yap
+            </button>
+        </div>
+        <div class="bg-slate-900 p-6 rounded-xl border border-slate-700 text-center">
+            <h3 class="text-lg font-semibold mb-2 text-slate-200">Sistem Yönetimi Aktif</h3>
+            <p class="text-sm text-slate-400 mb-4">Tüm öğrenci listesini ve takip verilerini bu panelden yönetebilirsiniz.</p>
+            <div class="inline-block bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 px-4 py-2 rounded-lg text-sm font-medium">
+                Yetki Seviyesi: Rehber Öğretmen / Yönetici
+            </div>
+        </div>
+    </div>
+
     <script>
-        // BURAYA ÖĞRENCİLERİN İSİMLERİNİ VE ÖZEL ŞİFRELERİNİ YAZABİLİRSİN
-        const ogrenciVeritabani = {
-            "mustafa":"hafiza2026"
-            "ahmet yılmaz": "1234",
-            "zeynep kaya": "5678",
-            "mehmet demir": "9876"
-            // Buraya istediğin kadar öğrenci ekleyebilirsin (İsimler hep küçük harf olmalı)
+        // KULLANICI VE ŞİFRE LİSTESİ (Buradan yeni öğrenci ekleyebilirsin)
+        const kullaniciVeritabani = {
+            "mustafa talha özkaleli": { sifre: "yonetici2026", rol: "yonetici" },
+            "ahmet yılmaz": { sifre: "1234", rol: "ogrenci" },
+            "zeynep kaya": { sifre: "5678", rol: "ogrenci" },
+            "mehmet demir": { sifre: "9876", rol: "ogrenci" }
         };
 
         function girisYap(event) {
             event.preventDefault();
             
-            const girilenAd = document.getElementById("ogrenci-adi").value.trim().toLowerCase();
-            const girilenSifre = document.getElementById("ogrenci-sifresi").value.trim();
+            const girilenAd = document.getElementById("kullanici-adi").value.trim().toLowerCase();
+            const girilenSifre = document.getElementById("kullanici-sifresi").value.trim();
             const errorDiv = document.getElementById("error-msg");
 
-            if (ogrenciVeritabani[girilenAd] && ogrenciVeritabani[girilenAd] === girilenSifre) {
-                // Giriş Başarılı
+            if (kullaniciVeritabani[girilenAd] && kullaniciVeritabani[girilenAd].sifre === girilenSifre) {
                 document.getElementById("login-screen").classList.add("hidden");
-                document.getElementById("dashboard-screen").classList.remove("hidden");
-                
-                // İlk harfleri büyük yazdırarak karşılama yapalım
-                let formatliAd = girilenAd.replace(/\b\w/g, l => l.toUpperCase());
-                document.getElementById("welcome-title").innerText = "Hoş Geldin, " + formatliAd;
                 errorDiv.classList.add("hidden");
+
+                let formatliAd = girilenAd.replace(/\b\w/g, l => l.toUpperCase());
+                let kullaniciRol = kullaniciVeritabani[girilenAd].rol;
+
+                if (kullaniciRol === "yonetici") {
+                    document.getElementById("yonetici-panel").classList.remove("hidden");
+                } else {
+                    document.getElementById("ogrenci-panel").classList.remove("hidden");
+                    document.getElementById("ogrenci-hosgeldin").innerText = "Hoş Geldin, " + formatliAd;
+                }
             } else {
-                // Giriş Başarısız
-                errorDiv.innerText = "Hatalı öğrenci adı veya şifre! Lütfen kontrol edin.";
+                errorDiv.innerText = "Hatalı ad soyad veya şifre! Lütfen kontrol edin.";
                 errorDiv.classList.remove("hidden");
             }
         }
 
         function cikisYap() {
             document.getElementById("login-screen").classList.remove("hidden");
-            document.getElementById("dashboard-screen").classList.add("hidden");
-            document.getElementById("ogrenci-adi").value = "";
-            document.getElementById("ogrenci-sifresi").value = "";
+            document.getElementById("ogrenci-panel").classList.add("hidden");
+            document.getElementById("yonetici-panel").classList.add("hidden");
+            document.getElementById("kullanici-adi").value = "";
+            document.getElementById("kullanici-sifresi").value = "";
         }
     </script>
 </body>

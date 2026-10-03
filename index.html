@@ -39,19 +39,23 @@
     <!-- Main Container -->
     <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6">
 
-        <!-- GİRİŞ EKRANI (ŞİFRELİ) -->
+        <!-- GİRİŞ EKRANI (YÖNETİCİ KULLANICI ADI & ŞİFRE) -->
         <section id="login-section" class="max-w-md mx-auto mt-16 bg-slate-900 border border-slate-800 p-8 rounded-2xl shadow-2xl">
             <div class="text-center mb-6">
-                <h2 class="text-2xl font-bold text-white">Sisteme Giriş</h2>
-                <p class="text-xs text-slate-400 mt-1">Lütfen devam etmek için ortak şifreyi girin</p>
+                <h2 class="text-2xl font-bold text-white">Yönetici Girişi</h2>
+                <p class="text-xs text-slate-400 mt-1">Koç Paneline erişmek için bilgilerinizi girin</p>
             </div>
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-medium text-slate-400 mb-1">Erişim Şifresi</label>
-                    <input type="password" id="login-password" placeholder="Şifrenizi girin..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
+                    <label class="block text-xs font-medium text-slate-400 mb-1">Kullanıcı Adı</label>
+                    <input type="text" id="login-username" placeholder="Kullanıcı adınız..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
                 </div>
-                <div id="login-error" class="text-rose-400 text-xs text-center hidden">Hatalı şifre!</div>
-                <button onclick="checkPassword()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 rounded-xl transition shadow-lg shadow-indigo-600/20 text-sm">Giriş Yap</button>
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1">Şifre</label>
+                    <input type="password" id="login-password" placeholder="Şifreniz..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
+                </div>
+                <div id="login-error" class="text-rose-400 text-xs text-center hidden">Hatalı kullanıcı adı veya şifre!</div>
+                <button onclick="checkLogin()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 rounded-xl transition shadow-lg shadow-indigo-600/20 text-sm">Giriş Yap</button>
             </div>
         </section>
 
@@ -177,8 +181,8 @@
                 <input type="text" id="new-student-name" placeholder="Örn: Ahmet Yılmaz" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
             </div>
             <div>
-                <label class="block text-xs font-medium text-slate-400 mb-1">Kullanıcı Adı (Sistem İçi ID)</label>
-                <input type="text" id="new-student-username" placeholder="Örn: ahmet123" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
+                <label class="block text-xs font-medium text-slate-400 mb-1">Kullanıcı Adı (Sistem İçi ID / Link İçin)</label>
+                <input type="text" id="new-student-username" placeholder="Örn: ahmet" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
             </div>
             <div class="flex justify-end gap-3 pt-2">
                 <button onclick="closeStudentModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-xl text-xs font-semibold">İptal</button>
@@ -224,15 +228,11 @@
             if(document.getElementById('week-selector')) document.getElementById('week-selector').value = todayStr;
             if(document.getElementById('student-week-selector')) document.getElementById('student-week-selector').value = todayStr;
 
-            // Önce şifre doğrulanmış mı kontrol et (Oturum hafızası)
             let isAuthed = sessionStorage.getItem('hafiza_authed');
-
-            // URL'de özel öğrenci token kontrolü
             const urlParams = new URLSearchParams(window.location.search);
             const studentToken = urlParams.get('ogrenci');
 
             if (studentToken) {
-                // Öğrenci linki ile girildiyse şifre istemeden doğrudan öğrenciyi aç
                 let students = JSON.parse(localStorage.getItem('koc_students')) || [];
                 let found = students.find(s => s.username === studentToken);
                 if (found) {
@@ -246,16 +246,17 @@
                 }
             }
 
-            // Eğer daha önceden ortak şifre girildiyse direkt koç panelini aç
             if (isAuthed === 'true') {
                 openAdminPanelDirectly();
             }
         });
 
-        function checkPassword() {
+        function checkLogin() {
+            let userVal = document.getElementById('login-username').value.trim().toLowerCase();
             let passVal = document.getElementById('login-password').value.trim();
-            // Ortak şifremiz: hafiza2026
-            if (passVal === 'hafiza2026') {
+
+            // Sizin yönetici bilgileriniz: kullanıcı adı "mustafa", şifre "yonetici2026"
+            if (userVal === 'mustafa' && passVal === 'yonetici2026') {
                 sessionStorage.setItem('hafiza_authed', 'true');
                 openAdminPanelDirectly();
             } else {
@@ -555,7 +556,7 @@
                         totalAssigned++;
                         if (hw.completed) totalCompleted++;
 
-                        dayHtml += '<div class="bg-slate-900 border ' + (hw.completed ? 'border-emerald-500/40 bg-emerald-950/10' : 'border-slate-800') + ' p-4 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition"><div class="space-y-1"><span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 uppercase tracking-wider">' + l.name + '</span><p class="text-xs text-slate-200 mt-1 whitespace-pre-line">' + hw.text + '</p></div><label class="flex items-center space-x-2 cursor-pointer bg-slate-800 px-3 py-2 rounded-lg border border-slate-700 hover:bg-slate-750 transition"><input type="checkbox" ' + (hw.completed ? 'checked' : '') + ' onchange="toggleStudentHomework(\'' + weekKey + '\', \' ' + dayKey + '\', \'' + l.id + '\', this.checked)" class="w-4 h-4 accent-indigo-600 rounded cursor-pointer"><span class="text-[11px] font-semibold text-slate-300">Tamamlandı</span></label></div>';
+                        dayHtml += '<div class="bg-slate-900 border ' + (hw.completed ? 'border-emerald-500/40 bg-emerald-950/10' : 'border-slate-800') + ' p-4 rounded-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 transition"><div class="space-y-1"><span class="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-500/10 text-indigo-400 uppercase tracking-wider">' + l.name + '</span><p class="text-xs text-slate-200 mt-1 whitespace-pre-line">' + hw.text + '</p></div><label class="flex items-center space-x-2 cursor-pointer bg-slate-800 px-3 py-2 rounded-lg border border-slate-700 hover:bg-slate-750 transition"><input type="checkbox" ' + (hw.completed ? 'checked' : '') + ' onchange="toggleStudentHomework(\'' + weekKey + '\', \'' + dayKey + '\', \'' + l.id + '\', this.checked)" class="w-4 h-4 accent-indigo-600 rounded cursor-pointer"><span class="text-[11px] font-semibold text-slate-300">Tamamlandı</span></label></div>';
                     }
                 });
 
@@ -576,7 +577,7 @@
             let allHw = JSON.parse(localStorage.getItem('koc_homeworks'));
             if (allHw[currentUser] && allHw[currentUser][weekKey] && allHw[currentUser][weekKey][dayId] && allHw[currentUser][weekKey][dayId][lessonId]) {
                 allHw[currentUser][weekKey][dayId][lessonId].completed = isChecked;
-                localStorage.getItem('koc_homeworks', JSON.stringify(allHw));
+                localStorage.setItem('koc_homeworks', JSON.stringify(allHw));
                 loadStudentPanel();
             }
         }

@@ -39,19 +39,23 @@
     <!-- Main Container -->
     <main class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6">
 
-        <!-- GİRİŞ EKRANI (ORTAK ŞİFRE) -->
+        <!-- GİRİŞ EKRANI (YÖNETİCİ GİRİŞİ) -->
         <section id="login-section" class="max-w-md mx-auto mt-16 bg-slate-900 border border-slate-800 p-8 rounded-2xl shadow-2xl">
             <div class="text-center mb-6">
-                <h2 class="text-2xl font-bold text-white">Sisteme Giriş</h2>
-                <p class="text-xs text-slate-400 mt-1">Devam etmek için ortak şifreyi girin</p>
+                <h2 class="text-2xl font-bold text-white">Yönetici Girişi</h2>
+                <p class="text-xs text-slate-400 mt-1">Koç paneline erişmek için bilgilerinizi girin</p>
             </div>
             <div class="space-y-4">
                 <div>
-                    <label class="block text-xs font-medium text-slate-400 mb-1">Erişim Şifresi</label>
-                    <input type="password" id="login-password" placeholder="Şifrenizi girin..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
+                    <label class="block text-xs font-medium text-slate-400 mb-1">Kullanıcı Adı</label>
+                    <input type="text" id="login-username" placeholder="Kullanıcı adınız..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
                 </div>
-                <div id="login-error" class="text-rose-400 text-xs text-center hidden">Hatalı şifre!</div>
-                <button onclick="checkPassword()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 rounded-xl transition shadow-lg shadow-indigo-600/20 text-sm">Giriş Yap</button>
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1">Şifre</label>
+                    <input type="password" id="login-password" placeholder="Şifreniz..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-200 focus:outline-none focus:border-indigo-500">
+                </div>
+                <div id="login-error" class="text-rose-400 text-xs text-center hidden">Hatalı kullanıcı adı veya şifre!</div>
+                <button onclick="checkLogin()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3 rounded-xl transition shadow-lg shadow-indigo-600/20 text-sm">Giriş Yap</button>
             </div>
         </section>
 
@@ -189,6 +193,10 @@
 
     <!-- Script Kodları -->
     <script>
+        // YÖNETİCİ GİRİŞ BİLGİLERİNİZ (Buradan dilediğiniz gibi değiştirebilirsiniz)
+        const ADMIN_USER = "mustafa";
+        const ADMIN_PASS = "yonetici2026";
+
         const days = [
             { id: 'pazartesi', name: 'PAZARTESİ' },
             { id: 'sali', name: 'SALI' },
@@ -247,11 +255,11 @@
             }
         });
 
-        function checkPassword() {
+        function checkLogin() {
+            let userVal = document.getElementById('login-username').value.trim().toLowerCase();
             let passVal = document.getElementById('login-password').value.trim();
 
-            // Ortak Şifre: hafiza2026
-            if (passVal === 'hafiza2026') {
+            if (userVal === ADMIN_USER && passVal === ADMIN_PASS) {
                 sessionStorage.setItem('hafiza_authed', 'true');
                 openAdminPanelDirectly();
             } else {
@@ -572,7 +580,7 @@
             let allHw = JSON.parse(localStorage.getItem('koc_homeworks'));
             if (allHw[currentUser] && allHw[currentUser][weekKey] && allHw[currentUser][weekKey][dayId] && allHw[currentUser][weekKey][dayId][lessonId]) {
                 allHw[currentUser][weekKey][dayId][lessonId].completed = isChecked;
-                localStorage.getItem('koc_homeworks', JSON.stringify(allHw));
+                localStorage.setItem('koc_homeworks', JSON.stringify(allHw));
                 loadStudentPanel();
             }
         }
